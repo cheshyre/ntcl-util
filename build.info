@@ -1,0 +1,4 @@
+library_name = ntcl-util
+modules = string property dictionary measurement quantum_number commandline configuration iterator iterator_builder iterator_constraints domain domain_builder interoptability assert timer readers
+api = api
+tests = serial
