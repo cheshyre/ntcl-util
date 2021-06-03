@@ -4,6 +4,8 @@ module readers_package_test_module
             selector, &
             assert
 
+    use :: integer_column_data_reader_test_module, only : integer_column_data_reader_test
+
     implicit none
     private
 
@@ -35,7 +37,16 @@ contains
         class(readers_package_test), intent(in) :: this
         type(assert), intent(inout) :: assertion
 
+        type(integer_column_data_reader_test) :: ainteger_column_data_reader_test
+
         call assertion%equal("readers::Package test complete", .true.)
+
+        if ( &
+                this%test_selector%is_enabled("integer_column_data_reader") ) then
+            ainteger_column_data_reader_test = integer_column_data_reader_test()
+            call ainteger_column_data_reader_test%run(assertion)
+            call ainteger_column_data_reader_test%cleanup()
+        end if
 
     end subroutine run
 

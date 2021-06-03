@@ -74,7 +74,7 @@ contains
         integer(int64), dimension(20) :: test_array
 
         rewind(this%aunit)
-        read(this%aunit, *, iostat=iostatus) line
+        read(this%aunit, '(a)', iostat=iostatus) line
         if ( iostatus /= 0) &
                 error stop "integer_column_data_reader::count_columns:Can not read file."
         rewind(this%aunit)
