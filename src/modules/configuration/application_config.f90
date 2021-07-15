@@ -12,6 +12,7 @@ module application_config_module
     private
 
     public :: application_config
+    public :: get_application_configuration
 
     type :: application_config
         type(dictionary) :: config, machine, full_config
@@ -40,6 +41,16 @@ contains
 
         call this%clear()
     end function constructor
+
+    type(dictionary) function get_application_configuration()
+
+        type(application_config) :: config
+
+        config = application_config()
+        call config%read_commandline()
+        get_application_configuration = config%get_config()
+        call config%cleanup()
+    end function get_application_configuration
 
     subroutine read_commandline(this)
         class(application_config), intent(inout) :: this
@@ -108,13 +119,13 @@ contains
         type(string_converter) :: converter
         type(string) :: dummy
 
-        if ( this%config%has_key("runfile") ) then
+        if ( this%full_config%has_key("runfile") ) then
             this%has_runfile = .true.
-            this%output_filename =  this%config%get_value("runfile")
+            this%output_filename =  this%full_config%get_value("runfile")
         end if
 
-        if ( this%config%has_key("dump_config") ) &
-                this%dump_config = converter%to_logical(this%config%get_value("dump_config"))
+        if ( this%full_config%has_key("dump_config") ) &
+                this%dump_config = converter%to_logical(this%full_config%get_value("dump_config"))
     end subroutine process_config
 
     type(dictionary) function get_config(this)
@@ -133,7 +144,7 @@ contains
         config_has_required_options = .true.
 
         do idx = 1, size(required)
-            if ( .not. this%config%has_key(required(idx), priorities) ) then
+            if ( .not. this%full_config%has_key(required(idx), priorities) ) then
                 write(error_unit, *) "application_config::config_has_required_options:"// &
                         "Missing config option: "//required(idx)%char_array
                 config_has_required_options = .false.
@@ -162,8 +173,7 @@ contains
 
         if ( .not. this%dump_config ) return
 
-        call this%config%write_to_unit(ounit)
-        call this%machine%write_to_unit(ounit)
+        call this%full_config%write_to_unit(ounit)
     end subroutine dump
 
     subroutine cleanup(this)

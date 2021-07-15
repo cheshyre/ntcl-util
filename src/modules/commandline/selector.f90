@@ -34,9 +34,10 @@ contains
 
         call this%clear()
         this%cmd = cmdline_arguments()
+        if (present(default_disabled)) this%default_disabled = default_disabled
+
         this%all_negated = this%are_all_negated()
 
-        if (present(default_disabled)) this%default_disabled = default_disabled
     end function constructor
 
     logical function are_all_negated(this)
@@ -48,6 +49,7 @@ contains
         are_all_negated = .true.
         do idx = 1, this%cmd%number_of_arguments
             arg = this%cmd%get_argument(idx)
+            if ( .not. this%is_enabled_by_default(arg%char_array) ) cycle
             if ( .not. this%negated_argument(arg)) are_all_negated = .false.
         end do
     end function are_all_negated
@@ -56,9 +58,13 @@ contains
         class(selector), intent(in) :: this
         character(len=*), intent(in) :: char_array
 
-        is_enabled = this%is_not_negated(char_array)
-        if ( .not. this%all_negated) &
-                is_enabled = is_enabled .and. this%has_argument_that_starts_with(char_array)
+        if ( this%has_argument_that_starts_with(char_array) ) then
+            is_enabled = .true.
+        else if ( this%is_enabled_by_default(char_array) ) then
+            is_enabled = this%is_not_negated(char_array)
+        else
+            is_enabled = .false.
+        end if
     end function is_enabled
 
     logical function negated_argument(this, arg)
@@ -112,7 +118,7 @@ contains
 
         integer :: idx
 
-        is_not_negated = this%is_enabled_by_default(char_array)
+        is_not_negated = this%all_negated
         idx = this%get_index(char_array)
         if ( idx > 0 ) then
             if (this%negated_argument(this%cmd%get_argument(idx))) &

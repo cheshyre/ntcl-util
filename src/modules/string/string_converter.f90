@@ -15,6 +15,7 @@ module string_converter_module
         procedure, nopass :: toreal64 => toreal64
         procedure, nopass :: to_string_array => to_string_array
         procedure, nopass :: to_int_array => to_int_array
+        procedure, nopass :: to_int64_array => to_int64_array
         procedure, nopass :: fromint => fromint
     end type string_converter
 
@@ -87,6 +88,24 @@ contains
         end do
         deallocate(str_array)
     end function to_int_array
+
+    function to_int64_array(str, delimiter) result(array)
+        type(string), intent(in) :: str
+        character, intent(in), optional :: delimiter
+        integer(int64), dimension(:), allocatable :: array
+
+        type(string), dimension(:), allocatable :: str_array
+        integer :: idx
+
+        str_array = to_string_array(str, delimiter)
+
+        array = [(toint64(str_array(idx)), idx = 1, size(str_array))]
+
+        do idx = 1, size(str_array)
+            call str_array(idx)%cleanup()
+        end do
+        deallocate(str_array)
+    end function to_int64_array
 
     real function toreal32(str)
         type(string), intent(in) :: str

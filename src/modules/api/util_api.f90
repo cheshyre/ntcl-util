@@ -24,7 +24,9 @@ module util_api
     use :: cmdline_parser_module, only : cmdline_parser
     use :: selector_module, only : selector
     use :: config_file_parser_module, only : config_file_parser
-    use :: application_config_module, only : application_config
+    use :: application_config_module, only : &
+            application_config, &
+            get_application_configuration
     use :: integer_range_module, only : integer_range
     use :: iterator_limit_module, only : iterator_limit
     use :: iterator_module, only : iterator
