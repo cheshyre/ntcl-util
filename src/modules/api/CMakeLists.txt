@@ -1,0 +1,29 @@
+add_library(
+    ntcl_util_api
+    util_api.f90
+)
+add_library(ntcl_util::api ALIAS ntcl_util_api)
+target_include_directories(
+    ntcl_util_api
+    PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries(
+    ntcl_util_api
+    PUBLIC
+    ntcl_util_interoptability
+    ntcl_util_string
+    ntcl_util_property
+    ntcl_util_dictionary
+    ntcl_util_measurement
+    ntcl_util_quantum_number
+    ntcl_util_commandline
+    ntcl_util_configuration
+    ntcl_util_iterator
+    ntcl_util_iterator_builder
+    ntcl_util_domain
+    ntcl_util_domain_builder
+    ntcl_util_assert
+    ntcl_util_timer
+    ntcl_util_readers
+)
