@@ -1,0 +1,19 @@
+add_library(
+    ntcl_util_commandline
+    cmdline_arguments.f90
+    cmdline_interface.f90
+    cmdline_parser.f90
+    selector.f90
+)
+add_library(ntcl_util::commandline ALIAS ntcl_util_commandline)
+target_include_directories(
+    ntcl_util_commandline
+    PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries(
+    ntcl_util_commandline
+    PUBLIC
+    ntcl_util_string
+    ntcl_util_dictionary
+)

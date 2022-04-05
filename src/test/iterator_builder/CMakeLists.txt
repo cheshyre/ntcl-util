@@ -1,0 +1,20 @@
+add_library(
+    ntcl_util_iterator_builder_test
+    iterator_builder_package_test.f90
+    iterator_product_test.f90
+)
+add_library(ntcl_util::iterator_builder_test ALIAS ntcl_util_iterator_builder_test)
+target_include_directories(
+    ntcl_util_iterator_builder_test
+    PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries(
+    ntcl_util_iterator_builder_test
+    PUBLIC
+    ntcl_util_api
+    ntcl_util_assert
+    ntcl_util_iterator
+    ntcl_util_iterator_builder
+    ntcl_util_iterator_constraints
+)

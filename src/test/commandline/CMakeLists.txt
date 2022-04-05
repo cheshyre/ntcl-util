@@ -1,0 +1,20 @@
+add_library(
+    ntcl_util_commandline_test
+    commandline_package_test.f90
+    cmdline_parser_test.f90
+)
+add_library(ntcl_util::commandline_test ALIAS ntcl_util_commandline_test)
+target_include_directories(
+    ntcl_util_commandline_test
+    PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries(
+    ntcl_util_commandline_test
+    PUBLIC
+    ntcl_util_api
+    ntcl_util_assert
+    ntcl_util_commandline
+    ntcl_util_string
+    ntcl_util_dictionary
+)
