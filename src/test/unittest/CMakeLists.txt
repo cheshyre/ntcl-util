@@ -1,0 +1,25 @@
+add_executable(
+    ntcl_util_unittest
+    unittest.f90
+)
+target_link_libraries(
+    ntcl_util_unittest
+    PUBLIC
+    ntcl_util_api
+    ntcl_util_string_test
+    ntcl_util_property_test
+    ntcl_util_dictionary_test
+    ntcl_util_measurement_test
+    ntcl_util_quantum_number_test
+    ntcl_util_commandline_test
+    ntcl_util_configuration_test
+    ntcl_util_iterator_test
+    ntcl_util_iterator_builder_test
+    ntcl_util_iterator_constraints_test
+    ntcl_util_domain_test
+    ntcl_util_domain_builder_test
+    ntcl_util_interoptability_test
+    ntcl_util_assert_test
+    ntcl_util_timer_test
+    ntcl_util_readers_test
+)

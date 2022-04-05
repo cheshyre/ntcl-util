@@ -1,0 +1,19 @@
+add_library(
+    ntcl_util_interoptability_pointer_interface
+    pointer_interface.c
+)
+add_library(
+    ntcl_util_interoptability
+    fortran_c_intrinsics.f90
+)
+add_library(ntcl_util::interoptability ALIAS ntcl_util_interoptability)
+target_include_directories(
+    ntcl_util_interoptability
+    PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+target_link_libraries(
+    ntcl_util_interoptability
+    PRIVATE
+    ntcl_util_interoptability_pointer_interface
+)
