@@ -3,6 +3,7 @@ add_library(
     config_file_parser.f90
     dictionary_converter.f90
     dictionary.f90
+    dictionary_ccompat.f90
 )
 add_library(ntcl_util::dictionary ALIAS ntcl_util_dictionary)
 target_include_directories(
